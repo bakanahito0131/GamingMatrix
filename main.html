@@ -1,0 +1,116 @@
+<html>
+<head>
+	<style>
+		body{
+			margin:0
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas">
+</canvas>
+<script>
+var canvas = document.getElementById("canvas")
+var ctx = canvas.getContext("2d")
+var w = window.innerWidth
+var h = window.innerHeight
+var screnW = screen.width
+var screnH = screen.height
+canvas.width = w
+canvas.height = h
+window.onresize = function(){
+	w = window.innerWidth
+	h = window.innerHeight
+	canvas.width = w
+	canvas.height = h
+	ctx.font = `${txtS}pt Arial`;
+}
+var txtS = screnH*screnW*0.000007
+ctx.font = `${txtS}pt Arial`;
+var txts = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789東京バカな人馬鹿暇終焉人工知能異常気象幻想かえりたい'//バカな人=私です
+var num = Math.round(w/txtS)
+var ys = new Array(num)
+var y = 0
+var i = 0
+var i2 = 0
+var r = 255
+var g = 0
+var b = 0
+var cRate = 5
+function random(){
+		ys[i]=(Math.round(num*Math.random())*txtS);
+		let randomNum = Math.random()
+		if(randomNum > 0.5){
+		ys[i] = -ys[i]
+		}
+}random()
+var red=false
+var redMinus = true
+var green = true
+var greenMinus = false
+var blue = false
+var blueMinus = false
+//console.log(ys)
+function anime(){
+	ctx.globalAlpha = 0.075
+	ctx.fillStyle = "black"
+	ctx.fillRect(0,0,w,h)
+	ctx.globalAlpha = 1
+	if(red){
+		if(r<255){
+			r+=cRate
+		}else{
+			red=false
+			greenMinus=false
+			blueMinus=true
+			green=true
+		}
+	}
+	if(redMinus){
+		r-=cRate
+	}
+	if(green){
+		if(g<255){//r=255,gは0から255まで上昇中
+			g+=cRate
+		}else{//r=255から減少,g=255のまま
+			green=false
+			redMinus = true
+			blueMinus = false
+			blue=true
+		}
+	}
+	if(greenMinus){
+		g-=cRate
+	}
+	if(blue){
+		if(b<255){//
+			b+=cRate
+		}else{
+			blue=false
+			greenMinus = true
+			redMinus = false
+			red=true
+		}
+	}
+	if(blueMinus){
+		b-=cRate
+	}
+	ctx.fillStyle = `rgb(${r},${g},${b})`
+	let txt = ""
+	while(i < w/txtS){//横
+		txt = txts[Math.floor(Math.random() * txts.length)];
+		if(ys[i]<h){
+			ys[i]+=txtS
+		}else{
+			random()
+		}
+		i++
+
+		ctx.fillText(txt,i*txtS,ys[i])
+	}
+	i=0
+	requestAnimationFrame(anime)
+}anime()
+</script>
+</body>
+</html>
