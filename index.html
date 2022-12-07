@@ -25,7 +25,7 @@ window.onresize = function(){
 	canvas.height = h
 	ctx.font = `${txtS}pt Arial`;
 }
-var txtS = screnH*screnW*0.00001
+var txtS = screnH*screnW*0.000015
 ctx.font = `${txtS}pt Arial`;
 var txts = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789東京バカな人馬鹿暇終焉人工知能異常気象幻想かえりたい'//バカな人=私です
 var num = Math.round(w/txtS)
@@ -34,6 +34,7 @@ var y = 0
 var i = 0
 var i2 = 0
 var r = 255
+var r2 = 255
 var g = 0
 var b = 0
 var cRate = 5
@@ -57,8 +58,8 @@ function anime(){
 	ctx.fillRect(0,0,w,h)
 	ctx.globalAlpha = 1
 	if(red){
-		if(r<255){
-			r+=cRate
+		if(r2<255){
+			r2+=cRate
 		}else{
 			red=false
 			greenMinus=false
@@ -67,7 +68,10 @@ function anime(){
 		}
 	}
 	if(redMinus){
-		r-=cRate
+		if(r2>0){
+			r2-=cRate
+		}
+
 	}
 	if(green){
 		if(g<255){//r=255,gは0から255まで上昇中
@@ -80,7 +84,10 @@ function anime(){
 		}
 	}
 	if(greenMinus){
-		g-=cRate
+		if(g>0){
+			g-=cRate
+		}
+
 	}
 	if(blue){
 		if(b<255){//
@@ -93,9 +100,12 @@ function anime(){
 		}
 	}
 	if(blueMinus){
-		b-=cRate
+		if(b>0){
+			b-=cRate
+		}
+
 	}
-	ctx.fillStyle = `rgb(${r},${g},${b})`
+	ctx.fillStyle = `rgb(${r2},${g},${b})`
 	let txt = ""
 	while(i < w/txtS){//横
 		txt = txts[Math.floor(Math.random() * txts.length)];
